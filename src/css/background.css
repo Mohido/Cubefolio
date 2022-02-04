@@ -1,0 +1,6 @@
+#background {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: -1000;    /* By default it should be the first one. However, we are just making sure that it will be rendered in the background. */
+}
