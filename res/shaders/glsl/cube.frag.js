@@ -5,11 +5,11 @@
 
 
 const cube_frag = `
-    layout(location = 0) out vec4 outColor;
+varying lowp vec4 vColor;
 
-    void main() {
-        outColor = vec4(0.0, 0,0, 0.0, 1,0);
-    }
+void main(void) {
+    gl_FragColor = vColor;
+}
 `;
 
-export {cube_frag};
+export {cube_frag as cube_frag};

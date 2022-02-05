@@ -9,14 +9,21 @@
     <!-- Styles loading area -->
     <link rel="stylesheet" href="css/global.css"/>
     <link rel="stylesheet" href="css/background.css"/>
+
+    <!--  Loading the gl matrix library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gl-matrix/2.8.1/gl-matrix-min.js" integrity="sha512-zhHQR0/H5SEBL3Wn6yYSaTTZej12z0hVZKOv3TwCUXT1z5qeqGcXJLLrbERYRScEDDpYIJhPC1fk31gqR783iQ==" crossorigin="anonymous" defer> </script>
+
 </head>
 <body>
     <!-- Interactive 3D background -->
-    <canvas id="background" width="100%" height="100%"></canvas>
+    <div id="background_container_3d">
+        <!-- Increase the canvas width and height to get a better resoolution. -->
+        <canvas id="background_3d" width="300%" height="300%"></canvas>
+        <div style="color:white;" id="data_viewer_3d"></div>
+    </div>
 
     <!-- Main content -->
     <!-- ... -->
-
 
     <!-- Scripts loaoding area -->
     <script type="module" src="./js/background.js"></script>
