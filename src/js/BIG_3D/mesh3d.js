@@ -1,3 +1,5 @@
+import { log, Severities} from "./utils/utils.js";
+
 class Object_3D {
     m_positions; m_texcords; m_colors; m_normals;
 
@@ -34,10 +36,12 @@ class Mesh {
      * @param {4x4 Matrix} model_M          : Matrix that determines the mesh transformation in the world space.
      */
     constructor(vertices, indices, gl_pipeline, gl_context, colors = null, normals = null, texcords = null, texture = null, model_M = mat4.create()){
-        mat4.translate(model_M, model_M, [-0.0, 0.0, -6.0]);
+        this.m_model_M = model_M;
         this.m_object = new Object_3D(vertices, colors, normals, texcords);
         this.m_indices = indices;
         this.m_gl_context = gl_context;
+        this.m_gl_pipeline = gl_pipeline;
+
 
         /** Buffer creations */
         this.m_vertexBuffer     = gl_context.createBuffer();
@@ -53,11 +57,12 @@ class Mesh {
         gl_context.bufferData(gl_context.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), gl_context.STATIC_DRAW);
 
         /** Finding the attributes in the vertex shader in the pipeline */
-        this.m_vertexLocation        = gl_context.getAttribLocation(gl_pipeline, 'position');
+        this.m_vertexLocation        = gl_context.getAttribLocation(this.m_gl_pipeline, 'position');
         //m_colorLocation         = gl.getAttribLocation(gl_pipeline, 'color');
         //m_normalLocation        = gl.getAttribLocation(gl_pipeline, 'normal'); 
         
-        this.m_modelMatrixLocation = gl_context.getUniformLocation(gl_pipeline, 'model_M');
+        this.m_modelMatrixLocation = gl_context.getUniformLocation(this.m_gl_pipeline, 'model_M');
+        mat4.translate(this.m_model_M, this.m_model_M, [-0.0, 0.0, -6.0]);
     }
 
 

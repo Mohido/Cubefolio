@@ -6,11 +6,36 @@ import {cube_vert} from "../../res/shaders/glsl/cube.vert.js";
 import {cube_frag} from "../../res/shaders/glsl/cube.frag.js";
 import {loadShader} from "./BIG_3D/utils/gl_utils.js";
 
+
+
+/// ---------------------------------------------------------- DEBUGING UTILITIES ------------------------------------- 
+function throwOnGLError(err, funcName, args) {
+    throw WebGLDebugUtils.glEnumToString(err) + " was caused by call to: " + funcName;
+};
+function logGLCall(functionName, args) {   
+    console.log("gl." + functionName + "(" + 
+    WebGLDebugUtils.glFunctionArgsToString(functionName, args) + ")");   
+} 
+function validateNoneOfTheArgsAreUndefined(functionName, args) {
+    for (var ii = 0; ii < args.length; ++ii) {
+        if (args[ii] === undefined) {
+            console.error("undefined passed to gl." + functionName + "(" + WebGLDebugUtils.glFunctionArgsToString(functionName, args) + ")");
+        }
+    }
+} 
+function logAndValidate(functionName, args) {
+    logGLCall(functionName, args);
+    validateNoneOfTheArgsAreUndefined (functionName, args);
+ }
+
+
+
+/// ---------------------------------------------------------- Main Program ------------------------------------- 
 window.onload = () => {
     /** Get Context */
     const canvas = document.getElementById("background_3d");
-    const gl = canvas.getContext("webgl");
-
+    const gl =  canvas.getContext("webgl");     // WebGLDebugUtils.makeDebugContext(canvas.getContext("webgl"));
+    // gl = WebGLDebugUtils.makeDebugContext(gl, throwOnGLError, logAndValidate);
     
     /** Create GL pipeline. */
     const cubeVert_s        = loadShader(gl, gl.VERTEX_SHADER, cube_vert);
@@ -34,7 +59,7 @@ window.onload = () => {
 
     const render = (now) => {
         big3d.render();
-        requestAnimationFrame(render);
+        //requestAnimationFrame(render);
     }
     requestAnimationFrame(render);
 
