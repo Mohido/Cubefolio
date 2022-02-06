@@ -1,17 +1,17 @@
 
 
 const cube_vert = `
-attribute vec4 aVertexPosition;
-attribute vec4 aVertexColor;
+attribute vec4 position;
+//attribute vec4 aVertexColor;
 
-uniform mat4 uModelViewMatrix;
-uniform mat4 uProjectionMatrix;
+uniform mat4 model_M;
+uniform mat4 projection_M;
 
 varying lowp vec4 vColor;
 
 void main(void) {
-    gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
-    vColor = aVertexColor;
+    gl_Position = projection_M * model_M * position;
+    vColor = position;
 }
 `;
 
