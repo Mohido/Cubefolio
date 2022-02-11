@@ -22,6 +22,26 @@ function loadShader(gl, type, source) {
 
 
 
+/**
+ * Creates a pipeline with the given vertex, fragment shaders.
+ * @param {String} vertexShader 
+ * @param {String} fragmentShader 
+ * @param {WebGLRenderingContextBase} gl_context 
+ * @returns {WebGLProgram} gl_pipeline
+ */
+function createPipeline(vertexShader, fragmentShader, gl_context){
+    const gl_pipeline       = gl_context.createProgram(); 
+    const cubeVert_s        = loadShader(gl_context, gl_context.VERTEX_SHADER, vertexShader);
+    const cubeFrag_s        = loadShader(gl_context, gl_context.FRAGMENT_SHADER, fragmentShader);
+    gl_context.attachShader(gl_pipeline, cubeVert_s);
+    gl_context.attachShader(gl_pipeline, cubeFrag_s);
+    gl_context.linkProgram(gl_pipeline);
+
+    return gl_pipeline;
+}
+
+
+
 // class Program {
 //     pipeline; attributes; uniforms;
 
@@ -46,4 +66,4 @@ function loadShader(gl, type, source) {
 
 
 
-export {loadShader};
+export {loadShader, createPipeline};

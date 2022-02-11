@@ -7,18 +7,6 @@ import {cube_vert} from "../../../res/shaders/glsl/cube.vert.js";
 import {cube_frag} from "../../../res/shaders/glsl/cube.frag.js";
 
 /** 2D plane vertices. */
-// Holds the rotation comulations over x,y,z axies.
-var cubeRotation = [0.0, 0.0, 0.0];
-
-
-const cube_c = [
-    [1.0,  1.0,  1.0,  1.0],    // Front face: white
-    [1.0,  0.0,  0.0,  1.0],    // Back face: red
-    [0.0,  1.0,  0.0,  1.0],    // Top face: green
-    [0.0,  0.0,  1.0,  1.0],    // Bottom face: blue
-    [1.0,  1.0,  0.0,  1.0],    // Right face: yellow
-    [1.0,  0.0,  1.0,  1.0],    // Left face: purple
-];
 
 
 /**
@@ -30,6 +18,8 @@ class Big_3D {
     m_skymap; m_meshes; m_camera;       // Scene objects.
     m_gl; m_dataviewer;                 // Viewer and webgl
     m_projectionMatrixLocation;         
+    m_running = true;
+    m_eventCaller = null;               // 1 time update caller. It is called only once whenever it is set.
 
 
     /**
@@ -57,6 +47,19 @@ class Big_3D {
      * Renders the background scene. It is called whenever you want to render the scene. 
      */
     render(){
+        /**Update before rendering if there is an updating waiting */
+        if(this.m_eventCaller != null){
+            const scene = {
+                camera: this.m_camera, 
+                meshes: this.m_meshes
+            };
+            const newScene = this.m_eventCaller(scene);
+            this.m_camera = newScene.camera;
+            this.m_meshes = newScene.meshes;
+            
+            this.m_eventCaller = null;
+        }
+
         this.m_gl.clearColor(0.0, 0.0, 0.0, 1.0);  // Clear to black, fully opaque
         this.m_gl.clearDepth(1.0);                 // Clear everything
         this.m_gl.enable(this.m_gl.DEPTH_TEST);           // Enable depth testing
@@ -72,6 +75,37 @@ class Big_3D {
             /** Mesh render */
             mesh.render();
         }
+    }
+
+
+    /**
+     * 
+     */
+    init(){
+        const loop = (now) => {
+            if(!this.m_running) {
+                log(Severities.INFO_, "Engine Stopped!");
+                return;
+            }
+            this.render();
+            requestAnimationFrame(loop);
+        }
+        requestAnimationFrame(loop);
+    }
+
+
+    /**
+     * Call this funciton to raise a BIG_3D Imediate event. It requires a callback event function with the definition below. 
+     *      The current Big_3D objects will be passed to that callback function. You can do whatever you like with this update function. 
+     * @param {Event Caller} eventCaller - function({camera, meshes}) - A function that will be called during the next frame only. It takes a scene json object.
+     *      Takes:      scene = {
+     *                          camera, 
+     *                          meshes,
+     *                  }
+     * 
+     */
+    update(eventCaller = null){
+        this.m_eventCaller = eventCaller;
     }
 }
 
