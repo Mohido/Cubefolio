@@ -99,6 +99,25 @@ class Mesh {
     }
 
 
+    /**
+     * A rotation interpolation of the rotation matrix. It interpolates and changes the current mesh matrix with the destination matrix.
+     * @param {*} dst_M - Distination matrix
+     * @param {*} ratio - Ratio of rotation. It is the ratio between the current object matrix and the next matrix.
+     */
+    rotateSync(dst_M, ratio){
+
+    }
+
+
+    /**
+     * A rotation interpolation of the rotation matrix. It interpolates and changes the current mesh matrix with the destination matrix.
+     * @param {*} dst_M - Distination matrix
+     * @param {*} ratio - Ratio of rotation. It is the ratio between the current object matrix and the next matrix.
+     */
+     rotateAsync(dst_M, ratio, ms){
+
+    }
+
     // ------------------------------------ SETTERS AREA -----------------------------
     /** Sets the object pipeline */
     set pipeline(newPipeline){}
