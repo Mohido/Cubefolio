@@ -1,0 +1,34 @@
+/* This module holds the 3D styles. Anything that is related and used withen the webgl. */
+:root {
+    --view-width: 100%;
+    --view-height: 100%;
+    --data-viewer-width: 30%;
+    --data-viewer-height: 30%;
+}
+
+#background_3d {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: -1000;    /* By default it should be the first one. However, we are just making sure that it will be rendered in the background. */
+}
+
+#data_viewer_3d{
+    width: var(--data-viewer-width);
+    height: var(--data-viewer-height);
+    position: absolute;
+    z-index: -999;
+}
+
+#background_container_3d {
+    top:0;
+    left:0;
+    width: var(--view-width);
+    height: var(--view-height);
+    position: absolute;
+}
+
+#seperator_3d {
+    display: block;
+    margin-top: var(--view-height) ;
+}
