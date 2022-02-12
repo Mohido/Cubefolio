@@ -10,6 +10,9 @@ import { Severities } from "./BIG_3D/utils/utils.js";
 
 /// ---------------------------------------------------------- Main Program ------------------------------------- 
 window.onload = async () => {
+
+    var indices2 = indices.map(e => e - 1 );
+
     /** Get Context */
     const canvas = document.getElementById("background_3d");
     const gl = canvas.getContext("webgl");     
@@ -22,7 +25,7 @@ window.onload = async () => {
     
     /** Create Skymap */
     /** Create Mesh/s */
-    const mesh = new Mesh(vertices, indices, testPipeline, gl);
+    const mesh = new Mesh(vertices, indices2, testPipeline, gl);
 
     /** Create Big_3D */
     const big3d = new Big_3D(null, [mesh], camera, gl, null);
@@ -37,6 +40,16 @@ window.onload = async () => {
                 camera : new Camera( scene.camera.m_fov + f, gl.canvas.clientWidth / gl.canvas.clientHeight, 0.1, 100, testPipeline, gl),
                 meshes : scene.meshes
             }
+        });
+    };
+
+
+
+     /** Add events system or whatever. For this application I will add a simple button to rotate the meshes when it is clicked. */
+     window.onclick = (e) => {
+        big3d.update((scene)=>{
+            for (var mesh of scene.meshes){  mat4.rotate(mesh.m_model_M, mesh.m_model_M, -.5,  [-1.0, 1.0, 0.0]); }
+            return {camera : scene.camera, meshes : scene.meshes}
         });
     };
 };

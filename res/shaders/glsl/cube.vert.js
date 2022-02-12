@@ -11,7 +11,7 @@ varying lowp vec4 vColor;
 
 void main(void) {
     gl_Position = projection_M * model_M * position;
-    vColor = position;
+    vColor = vec4(position.xyz, 1.0);
 }
 `;
 

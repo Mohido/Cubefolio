@@ -63,6 +63,7 @@ class Mesh {
         
         this.m_modelMatrixLocation = gl_context.getUniformLocation(this.m_gl_pipeline, 'model_M');
         mat4.translate(this.m_model_M, this.m_model_M, [-0.0, 0.0, -6.0]);
+        
     }
 
 
