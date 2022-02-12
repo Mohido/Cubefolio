@@ -36,12 +36,14 @@ class Mesh {
      * @param {4x4 Matrix} model_M          : Matrix that determines the mesh transformation in the world space.
      */
     constructor(vertices, indices, gl_pipeline, gl_context, colors = null, normals = null, texcords = null, texture = null, model_M = mat4.create()){
+        //var ind = [...indices].map(e => e - 1 );
         this.m_model_M = model_M;
         this.m_object = new Object_3D(vertices, colors, normals, texcords);
-        this.m_indices = indices;
+        this.m_indices = indices.map(e => e-1);
         this.m_gl_context = gl_context;
         this.m_gl_pipeline = gl_pipeline;
-
+        //for(const ind of indices) {this.m_indices += ind - 1; }
+        //log(Severities.INFO_, this.m_indices)
 
         /** Buffer creations */
         this.m_vertexBuffer     = gl_context.createBuffer();
@@ -54,7 +56,7 @@ class Mesh {
         gl_context.bufferData(gl_context.ARRAY_BUFFER, new Float32Array(this.m_object.m_positions), gl_context.STATIC_DRAW);
 
         gl_context.bindBuffer(gl_context.ELEMENT_ARRAY_BUFFER, this.m_indexBuffer);
-        gl_context.bufferData(gl_context.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), gl_context.STATIC_DRAW);
+        gl_context.bufferData(gl_context.ELEMENT_ARRAY_BUFFER, new Uint16Array(this.m_indices), gl_context.STATIC_DRAW);
 
         /** Finding the attributes in the vertex shader in the pipeline */
         this.m_vertexLocation        = gl_context.getAttribLocation(this.m_gl_pipeline, 'position');

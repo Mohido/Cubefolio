@@ -9,10 +9,7 @@ import { Severities } from "./BIG_3D/utils/utils.js";
 
 
 /// ---------------------------------------------------------- Main Program ------------------------------------- 
-window.onload = async () => {
-
-    var indices2 = indices.map(e => e - 1 );
-
+window.onload = () => {
     /** Get Context */
     const canvas = document.getElementById("background_3d");
     const gl = canvas.getContext("webgl");     
@@ -25,7 +22,7 @@ window.onload = async () => {
     
     /** Create Skymap */
     /** Create Mesh/s */
-    const mesh = new Mesh(vertices, indices2, testPipeline, gl);
+    const mesh = new Mesh(vertices, indices, testPipeline, gl);
 
     /** Create Big_3D */
     const big3d = new Big_3D(null, [mesh], camera, gl, null);
